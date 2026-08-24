@@ -10,7 +10,7 @@ export default function Favorites() {
 
   return (
     <div className="px-4 pb-10 pt-6 md:px-8">
-      <h1 className="text-lg font-medium text-gray-900">즐겨찾기</h1>
+      <h1 className="text-lg font-medium text-gray-900 dark:text-gray-100">즐겨찾기</h1>
       <div className="mt-4 space-y-2">
         {list.length === 0 ? (
           <EmptyState

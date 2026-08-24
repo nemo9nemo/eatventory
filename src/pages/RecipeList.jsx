@@ -31,9 +31,9 @@ export default function RecipeList() {
     <div className="px-4 pb-10 pt-6 md:px-8">
       <div className="flex items-center gap-2">
         <button onClick={() => navigate(-1)} aria-label="뒤로가기">
-          <ChevronLeft size={20} className="text-gray-500" />
+          <ChevronLeft size={20} className="text-gray-500 dark:text-gray-400" />
         </button>
-        <h1 className="text-lg font-medium text-gray-900">레시피 추천</h1>
+        <h1 className="text-lg font-medium text-gray-900 dark:text-gray-100">레시피 추천</h1>
       </div>
 
       <div className="mt-4 flex gap-2 overflow-x-auto">
@@ -42,7 +42,9 @@ export default function RecipeList() {
             key={f.key}
             onClick={() => setFilter(f.key)}
             className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium ${
-              filter === f.key ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600'
+              filter === f.key
+                ? 'bg-emerald-600 text-white dark:bg-emerald-500'
+                : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300'
             }`}
           >
             {f.label}

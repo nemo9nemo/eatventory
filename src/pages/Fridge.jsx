@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Plus, Search, Pin } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-import IngredientCard from '../components/IngredientCard'
+import IngredientVessel from '../components/IngredientVessel'
 import EmptyState from '../components/EmptyState'
 import FridgeFrame from '../components/FridgeFrame'
 import TemperatureTabs from '../components/TemperatureTabs'
@@ -82,9 +82,9 @@ export default function Fridge() {
                   category={group.category}
                   label={`${SECTION_LABEL[group.category]} · ${group.items.length}개`}
                 >
-                  <div className="grid grid-cols-3 gap-2 md:grid-cols-4 md:gap-3 lg:grid-cols-5">
+                  <div className="flex min-h-[78px] flex-wrap items-end gap-x-3.5 gap-y-5 md:min-h-[86px] md:gap-x-4 md:gap-y-6">
                     {group.items.map((item) => (
-                      <IngredientCard key={item.id} ingredient={item} onClick={() => setModalState(item)} />
+                      <IngredientVessel key={item.id} ingredient={item} onClick={() => setModalState(item)} />
                     ))}
                   </div>
                 </ShelfSection>

@@ -10,7 +10,7 @@ export default function RecipeDetail() {
   const ingredientNames = ingredients.map((i) => i.name)
 
   if (!recipe) {
-    return <div className="px-4 py-10 text-center text-sm text-gray-500">레시피를 찾을 수 없어요.</div>
+    return <div className="px-4 py-10 text-center text-sm text-gray-500 dark:text-gray-400">레시피를 찾을 수 없어요.</div>
   }
 
   const isFavorite = favorites.includes(recipe.id)
@@ -19,35 +19,39 @@ export default function RecipeDetail() {
     <div className="pb-10">
       <div className="flex items-center justify-between px-4 pt-6 md:px-8">
         <button onClick={() => navigate(-1)} aria-label="뒤로가기">
-          <ChevronLeft size={20} className="text-gray-500" />
+          <ChevronLeft size={20} className="text-gray-500 dark:text-gray-400" />
         </button>
         <button onClick={() => toggleFavorite(recipe.id)} aria-label="즐겨찾기 토글">
           <Star
             size={20}
             fill={isFavorite ? 'currentColor' : 'none'}
-            className={isFavorite ? 'text-amber-400' : 'text-gray-300'}
+            className={isFavorite ? 'text-amber-400' : 'text-gray-300 dark:text-gray-600'}
           />
         </button>
       </div>
 
       <div className="px-4 md:px-8">
-        <div className="mt-3 flex h-32 items-center justify-center rounded-xl bg-emerald-50 text-3xl font-medium text-emerald-600">
+        <div className="mt-3 flex h-32 items-center justify-center rounded-xl bg-emerald-50 text-3xl font-medium text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
           {recipe.name.slice(0, 1)}
         </div>
-        <h1 className="mt-4 text-xl font-medium text-gray-900">{recipe.name}</h1>
-        <p className="mt-1 flex items-center gap-1 text-xs text-gray-500">
+        <h1 className="mt-4 text-xl font-medium text-gray-900 dark:text-gray-100">{recipe.name}</h1>
+        <p className="mt-1 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
           <Clock size={14} /> {recipe.time} · {recipe.difficulty}
         </p>
 
         <div className="mt-5">
-          <h2 className="text-sm font-medium text-gray-900">재료</h2>
+          <h2 className="text-sm font-medium text-gray-900 dark:text-gray-100">재료</h2>
           <ul className="mt-2 space-y-1.5">
             {recipe.ingredients.map((ing) => {
               const owned = ingredientNames.includes(ing)
               return (
                 <li key={ing} className="flex items-center gap-2 text-sm">
-                  {owned ? <Check size={16} className="text-emerald-600" /> : <XIcon size={16} className="text-gray-300" />}
-                  <span className={owned ? 'text-gray-900' : 'text-gray-400'}>{ing}</span>
+                  {owned ? (
+                    <Check size={16} className="text-emerald-600 dark:text-emerald-400" />
+                  ) : (
+                    <XIcon size={16} className="text-gray-300 dark:text-gray-600" />
+                  )}
+                  <span className={owned ? 'text-gray-900 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}>{ing}</span>
                 </li>
               )
             })}
@@ -55,11 +59,11 @@ export default function RecipeDetail() {
         </div>
 
         <div className="mt-6">
-          <h2 className="text-sm font-medium text-gray-900">조리 순서</h2>
+          <h2 className="text-sm font-medium text-gray-900 dark:text-gray-100">조리 순서</h2>
           <ol className="mt-2 space-y-3">
             {recipe.steps.map((step, index) => (
-              <li key={index} className="flex gap-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[11px] font-medium text-white">
+              <li key={index} className="flex gap-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[11px] font-medium text-white dark:bg-emerald-500">
                   {index + 1}
                 </span>
                 <span>{step}</span>

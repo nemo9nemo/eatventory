@@ -33,16 +33,19 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
       onClick={onClose}
       data-testid="ingredient-modal"
     >
-      <div className="w-full max-w-sm rounded-t-2xl bg-white p-5 md:rounded-2xl" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="w-full max-w-sm rounded-t-2xl bg-white p-5 dark:bg-gray-900 md:rounded-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-medium text-gray-900">{ingredient ? '재료 수정' : '재료 추가'}</h2>
+          <h2 className="text-base font-medium text-gray-900 dark:text-gray-100">{ingredient ? '재료 수정' : '재료 추가'}</h2>
           <button onClick={onClose} aria-label="닫기">
-            <X size={20} className="text-gray-400" />
+            <X size={20} className="text-gray-400 dark:text-gray-500" />
           </button>
         </div>
 
         <div className="mt-4">
-          <label className="text-xs text-gray-500">재료 이름</label>
+          <label className="text-xs text-gray-500 dark:text-gray-400">재료 이름</label>
           <input
             value={name}
             onChange={(e) => {
@@ -50,13 +53,13 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
               if (error) setError('')
             }}
             placeholder="예: 계란"
-            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-emerald-500"
           />
-          {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+          {error && <p className="mt-1 text-xs text-red-500 dark:text-red-400">{error}</p>}
         </div>
 
         <div className="mt-4">
-          <label className="text-xs text-gray-500">보관 구분</label>
+          <label className="text-xs text-gray-500 dark:text-gray-400">보관 구분</label>
           <div className="mt-1 flex gap-2">
             {CATEGORY_OPTIONS.map((opt) => (
               <button
@@ -64,7 +67,9 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                 onClick={() => setCategory(opt.key)}
                 data-testid={`category-${opt.key}`}
                 className={`flex-1 rounded-lg py-2 text-sm font-medium ${
-                  category === opt.key ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600'
+                  category === opt.key
+                    ? 'bg-emerald-600 text-white dark:bg-emerald-500'
+                    : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300'
                 }`}
               >
                 {opt.label}
@@ -74,27 +79,31 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
         </div>
 
         <div className="mt-4">
-          <label className="text-xs text-gray-500">유통기한 (며칠 후, 선택)</label>
+          <label className="text-xs text-gray-500 dark:text-gray-400">유통기한 (며칠 후, 선택)</label>
           <input
             type="number"
             min="0"
             value={expiresInDays}
             onChange={(e) => setExpiresInDays(e.target.value)}
             placeholder="미입력 시 유통기한 표시 없음"
-            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-emerald-500"
           />
         </div>
 
         <button
           onClick={handleSave}
           data-testid="save-ingredient"
-          className="mt-5 w-full rounded-lg bg-emerald-600 py-2.5 text-sm font-medium text-white hover:bg-emerald-700"
+          className="mt-5 w-full rounded-lg bg-emerald-600 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600"
         >
           저장
         </button>
 
         {onDelete && (
-          <button onClick={onDelete} data-testid="delete-ingredient" className="mt-2 w-full py-2 text-sm text-red-500">
+          <button
+            onClick={onDelete}
+            data-testid="delete-ingredient"
+            className="mt-2 w-full py-2 text-sm text-red-500 dark:text-red-400"
+          >
             삭제
           </button>
         )}

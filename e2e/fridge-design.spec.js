@@ -6,17 +6,21 @@ test.describe('냉장고 디자인 스펙 준수', () => {
     await page.goto('/fridge')
   })
 
-  test('구역별 선반 배경이 스펙 색상 그라데이션을 사용한다', async ({ page }) => {
-    const fridgeCard = page.getByTestId('ingredient-card-1') // 계란, 냉장
-    await expect(fridgeCard).toHaveCSS('background-image', /linear-gradient/)
-    const bg = await fridgeCard.evaluate((el) => getComputedStyle(el).backgroundImage)
-    expect(bg).toContain('247, 251, 255') // #F7FBFF
-    expect(bg).toContain('233, 242, 252') // #E9F2FC
+  // v2(docs/03 3-4): 구역 배경 그라데이션은 카드 루트(vwrap, 클릭 타깃)가 아니라
+  // 내부 실루엣(`shape`, 카드의 첫 번째 div 자식)에 적용된다. 색상도 v1의 상하 그라데이션
+  // (#F7FBFF → #E9F2FC)에서 v2의 대각선 광택 그라데이션(155deg, #fff → zone fill2 75%)으로 바뀌었다.
+  test('구역별 용기 실루엣 배경이 스펙 색상 그라데이션을 사용한다', async ({ page }) => {
+    const fridgeShape = page.getByTestId('ingredient-card-1').locator('div').first() // 계란, 냉장
+    await expect(fridgeShape).toHaveCSS('background-image', /linear-gradient/)
+    const bg = await fridgeShape.evaluate((el) => getComputedStyle(el).backgroundImage)
+    expect(bg).toContain('255, 255, 255') // #fff
+    expect(bg).toContain('233, 242, 252') // #E9F2FC (fridge fill2)
   })
 
-  test('냉동 선반 카드는 점선 테두리를 사용한다', async ({ page }) => {
-    const frozenCard = page.getByTestId('ingredient-card-6') // 만두, 냉동
-    await expect(frozenCard).toHaveCSS('border-style', 'dashed')
+  // v2: 테두리 스타일도 vwrap이 아니라 내부 `shape`에 적용된다.
+  test('냉동 선반 용기는 점선 테두리를 사용한다', async ({ page }) => {
+    const frozenShape = page.getByTestId('ingredient-card-6').locator('div').first() // 만두, 냉동
+    await expect(frozenShape).toHaveCSS('border-style', 'dashed')
   })
 
   test('유통기한 임박(D-2 이하) 배지는 빨강, 곧 임박(D-3~5)은 주황으로 표시된다', async ({ page }) => {
