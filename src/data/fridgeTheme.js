@@ -1,0 +1,36 @@
+// 냉장고 화면 전용 시각 팔레트 (docs/03_냉장고_디자인_스펙.md 1장, 4장 기준)
+// FridgeFrame / TemperatureTabs / ShelfSection / IngredientCard가 공유한다.
+
+export const ZONE_STYLE = {
+  room: {
+    bg: 'bg-[linear-gradient(#F1E6D2,#E8DAC0)] dark:bg-[linear-gradient(#3A3226,#2E281F)]',
+    border: 'border-[#D9C9A3] dark:border-[#3A3226]',
+    barBg: 'bg-[#D9C9A3] dark:bg-[#3A3226]',
+    text: 'text-[#8A6D3B] dark:text-[#D4B87A]',
+    dashed: false,
+  },
+  fridge: {
+    bg: 'bg-[linear-gradient(#F7FBFF,#E9F2FC)] dark:bg-[linear-gradient(#1B2A3D,#16222F)]',
+    border: 'border-[#BFDCF7] dark:border-[#1B2A3D]',
+    barBg: 'bg-[#BFDCF7] dark:bg-[#1B2A3D]',
+    text: 'text-[#1D5A96] dark:text-[#8FC2F2]',
+    dashed: false,
+  },
+  frozen: {
+    bg: 'bg-[linear-gradient(#EDF2FF,#E4E9FB)] dark:bg-[linear-gradient(#232A45,#1B2036)]',
+    border: 'border-[#C9D3F5] dark:border-[#232A45]',
+    barBg: 'bg-[#C9D3F5] dark:bg-[#232A45]',
+    text: 'text-[#4A4FA0] dark:text-[#AEB6F5]',
+    dashed: true,
+  },
+}
+
+// '전체' 탭이 활성화됐을 때(구역이 아니므로 팔레트가 없음) 사용하는 중립 스타일
+export const ALL_TAB_STYLE = 'bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100'
+
+// D-day 배지(자석 스티커) — docs/03 1-3
+export const URGENCY_STYLE = {
+  urgent: { badge: 'bg-[#FEE2E2] text-[#B91C1C] border-[#F5A3A3]', rotate: '-rotate-[8deg]' },
+  soon: { badge: 'bg-[#FEF3C7] text-[#92400E] border-[#F2CB7A]', rotate: 'rotate-[6deg]' },
+  normal: { badge: 'bg-[#F3F4F6] text-[#6B7280] border-[#E2E4E9]', rotate: '' },
+}
