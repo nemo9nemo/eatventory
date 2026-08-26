@@ -45,6 +45,14 @@ export const ZONE_STYLE = {
 // '전체' 탭이 활성화됐을 때(구역이 아니므로 팔레트가 없음) 사용하는 중립 스타일
 export const ALL_TAB_STYLE = 'bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100'
 
+// 냉장고 문 · 도어 포켓 전용 색(docs/03 1-6) — 냉장(fridge)과 같은 파랑 계열이되 한 톤 짙은 변형.
+// 별도 카드가 아니라 인테리어 패널 안의 옅은 톤 로우이므로 무게감을 무겁게 주지 않는다(v3.1).
+export const DOOR_STYLE = {
+  bg: 'bg-[linear-gradient(#E3ECF7,#C9D9EC)] dark:bg-[linear-gradient(#213347,#182432)]',
+  border: 'border-[#9FBEDD] dark:border-[#33475F]',
+  text: 'text-[#1D5A96] dark:text-[#8FC2F2]',
+}
+
 // D-day 배지(자석 스티커) — docs/03 1-3, 변경 없음
 export const URGENCY_STYLE = {
   urgent: { badge: 'bg-[#FEE2E2] text-[#B91C1C] border-[#F5A3A3]', rotate: '-rotate-[8deg]' },

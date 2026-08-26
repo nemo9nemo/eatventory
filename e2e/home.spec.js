@@ -5,7 +5,7 @@ test.describe('홈 화면', () => {
     await page.goto('/')
     await expect(page.getByRole('heading', { name: '잇벤토리' })).toBeVisible()
     await expect(page.getByText('보유 재료')).toBeVisible()
-    await expect(page.getByText('10개')).toBeVisible()
+    await expect(page.getByText('14개')).toBeVisible()
     await expect(page.getByText(/유통기한 임박/)).toBeVisible()
     await expect(page.locator('[data-testid^="recipe-card-"]')).toHaveCount(4)
   })

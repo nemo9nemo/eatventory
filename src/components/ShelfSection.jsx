@@ -1,50 +1,17 @@
 import { ZONE_STYLE } from '../data/fridgeTheme'
 
-// 선반 섹션 (docs/03_냉장고_디자인_스펙.md 3-3)
-// category/label/children만 받는 순수 프레젠테이션 컴포넌트. 데이터 흐름(grouped)은 Fridge.jsx가 그대로 소유한다.
-// v2: 선반 3D 두께감(유리 선반 바), 냉장 구역 조명 워시, 냉동 구역 서리(도트+스크래치) 결 추가.
+// 선반 섹션 (docs/03_냉장고_디자인_스펙.md 3-3, v3.1로 개정)
+// category/label/children만 받는 순수 프레젠테이션 컴포넌트 — props 형태는 이전과 동일하게 유지한다.
+// v3.1: 구역별 색깔 카드(zone.bg 배경, 테두리, 조명 워시/서리 오버레이)를 전부 걷어내고, 하나로 이어진
+// FridgeInterior 패널 안에서 라벨 + 용기 로우만 담당하는 얇은 섹션으로 단순화했다(문서 끝 "v3.1" 절 참고).
+// 구역 색 정체성은 라벨 텍스트 색(zone.text)에만 남는다 — 실온/냉장/냉동을 여전히 색으로 구분할 수 있게.
 export default function ShelfSection({ category, label, children }) {
   const zone = ZONE_STYLE[category]
-  const isRoom = category === 'room'
-  const isFrozen = category === 'frozen'
-  const isFridge = category === 'fridge'
 
   return (
     <section>
-      {isFrozen ? (
-        <div className={`border-t-[2.5px] border-dashed ${zone.border}`} aria-hidden="true" />
-      ) : (
-        <div
-          aria-hidden="true"
-          className={`h-[9px] rounded-md shadow-[0_3px_5px_-2px_rgba(20,40,70,0.25)] ${zone.shelfBarBg}`}
-        />
-      )}
-      <div
-        className={`relative overflow-hidden mt-2 p-3 ${zone.bg} ${
-          isRoom ? `rounded-b-2xl border-t-4 ${zone.border}` : 'rounded-2xl'
-        }`}
-      >
-        {isFridge && (
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-9 bg-[radial-gradient(ellipse_at_50%_-10%,rgba(255,255,255,.85),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_50%_-10%,rgba(255,255,255,.12),transparent_70%)]"
-          />
-        )}
-        {isFrozen && (
-          <>
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[length:6px_6px] opacity-[0.07]"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(45deg,rgba(255,255,255,.25)_0px,rgba(255,255,255,.25)_2px,transparent_2px,transparent_7px)] opacity-[0.12]"
-            />
-          </>
-        )}
-        <p className={`relative mb-2 text-xs font-medium ${zone.text}`}>{label}</p>
-        <div className="relative">{children}</div>
-      </div>
+      <p className={`mb-2 text-xs font-medium ${zone.text}`}>{label}</p>
+      <div>{children}</div>
     </section>
   )
 }

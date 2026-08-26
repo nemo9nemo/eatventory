@@ -11,6 +11,10 @@ export const initialIngredients = [
   { id: 8, name: '식용유', category: 'room', expiresInDays: null },
   { id: 9, name: '양파', category: 'room', expiresInDays: 10 },
   { id: 10, name: '감자', category: 'room', expiresInDays: 14 },
+  { id: 11, name: '고추장', category: 'fridge', expiresInDays: null },
+  { id: 12, name: '된장', category: 'fridge', expiresInDays: null },
+  { id: 13, name: '케찹', category: 'fridge', expiresInDays: null },
+  { id: 14, name: '마요네즈', category: 'fridge', expiresInDays: null },
 ]
 
 export const recipes = [

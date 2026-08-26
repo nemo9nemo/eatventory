@@ -7,6 +7,12 @@ import EmptyState from '../components/EmptyState'
 import FridgeFrame from '../components/FridgeFrame'
 import TemperatureTabs from '../components/TemperatureTabs'
 import ShelfSection from '../components/ShelfSection'
+import FridgeInterior from '../components/FridgeInterior'
+import ShelfDivider from '../components/ShelfDivider'
+import DoorPocketRow from '../components/DoorPocketRow'
+import VeggieDrawer from '../components/VeggieDrawer'
+import { isDoorItem } from '../data/doorGuide'
+import { getVesselConfig } from '../data/vesselShapes'
 import AddIngredientModal from './AddIngredientModal'
 
 const TABS = [
@@ -16,7 +22,9 @@ const TABS = [
   { key: 'frozen', label: '냉동' },
 ]
 
-const SECTION_LABEL = { room: '실온 선반', fridge: '냉장 선반', frozen: '냉동 선반' }
+// 재료 용기들이 공유하는 flex 로우 레이아웃(v2에서 계승, 변경 없음)
+const VESSEL_ROW_CLASS =
+  'flex min-h-[78px] flex-wrap items-end gap-x-3.5 gap-y-5 md:min-h-[86px] md:gap-x-4 md:gap-y-6'
 
 export default function Fridge() {
   const navigate = useNavigate()
@@ -33,12 +41,78 @@ export default function Fridge() {
     })
   }, [ingredients, tab, query])
 
-  const grouped = useMemo(() => {
-    const categories = tab === 'all' ? ['room', 'fridge', 'frozen'] : [tab]
-    return categories
-      .map((category) => ({ category, items: filtered.filter((item) => item.category === category) }))
-      .filter((group) => group.items.length > 0)
-  }, [filtered, tab])
+  // v3.1(docs/03_냉장고_디자인_스펙.md 끝 절 참고): 카테고리별 별도 카드 대신 하나로 이어진
+  // 인테리어 패널 안에 로우 그룹을 순서대로 배치한다. fridge 그룹은 도어 포켓(소스류)/유리 선반으로,
+  // room 그룹은 채소 서랍(뿌리채소)/선반으로 한 번 더 나뉜다 — 둘 다 category 필드는 건드리지 않고
+  // 이름 키워드 기반 파생 로직(isDoorItem, getVesselConfig의 tuber 판별)으로만 나눈다.
+  const fridgeItems = useMemo(() => filtered.filter((item) => item.category === 'fridge'), [filtered])
+  const fridgeShelfItems = useMemo(() => fridgeItems.filter((item) => !isDoorItem(item.name)), [fridgeItems])
+  const fridgeDoorItems = useMemo(() => fridgeItems.filter((item) => isDoorItem(item.name)), [fridgeItems])
+
+  const frozenItems = useMemo(() => filtered.filter((item) => item.category === 'frozen'), [filtered])
+
+  const roomItems = useMemo(() => filtered.filter((item) => item.category === 'room'), [filtered])
+  const roomShelfItems = useMemo(
+    () => roomItems.filter((item) => getVesselConfig(item.name, 'room').shape !== 'tuber'),
+    [roomItems]
+  )
+  const roomTuberItems = useMemo(
+    () => roomItems.filter((item) => getVesselConfig(item.name, 'room').shape === 'tuber'),
+    [roomItems]
+  )
+
+  const isEmpty = filtered.length === 0
+
+  const openModal = (item) => setModalState(item)
+
+  const blocks = []
+  if (fridgeShelfItems.length > 0) {
+    blocks.push(
+      <ShelfSection key="fridge-shelf" category="fridge" label={`냉장 선반 · ${fridgeShelfItems.length}개`}>
+        <div className={VESSEL_ROW_CLASS}>
+          {fridgeShelfItems.map((item) => (
+            <IngredientVessel key={item.id} ingredient={item} onClick={() => openModal(item)} />
+          ))}
+        </div>
+      </ShelfSection>
+    )
+  }
+  if (fridgeDoorItems.length > 0) {
+    blocks.push(<DoorPocketRow key="fridge-door" items={fridgeDoorItems} onItemClick={openModal} />)
+  }
+  if (frozenItems.length > 0) {
+    blocks.push(
+      <ShelfSection key="frozen" category="frozen" label={`냉동 선반 · ${frozenItems.length}개`}>
+        <div className={VESSEL_ROW_CLASS}>
+          {frozenItems.map((item) => (
+            <IngredientVessel key={item.id} ingredient={item} onClick={() => openModal(item)} />
+          ))}
+        </div>
+      </ShelfSection>
+    )
+  }
+  if (roomShelfItems.length > 0) {
+    // 라벨 개수는 선반+서랍을 합친 room 총 개수(roomItems.length)를 표시한다 — "실온 선반 · N개"가
+    // 실온 탭 전체 재료 수를 뜻하던 기존 동작(e2e/fridge.spec.js)을 그대로 유지하기 위함이다.
+    blocks.push(
+      <ShelfSection key="room-shelf" category="room" label={`실온 선반 · ${roomItems.length}개`}>
+        <div className={VESSEL_ROW_CLASS}>
+          {roomShelfItems.map((item) => (
+            <IngredientVessel key={item.id} ingredient={item} onClick={() => openModal(item)} />
+          ))}
+        </div>
+      </ShelfSection>
+    )
+  }
+  if (roomTuberItems.length > 0) {
+    blocks.push(<VeggieDrawer key="veggie-drawer" items={roomTuberItems} onItemClick={openModal} />)
+  }
+
+  const rows = []
+  blocks.forEach((block, idx) => {
+    if (idx > 0) rows.push(<ShelfDivider key={`divider-${idx}`} />)
+    rows.push(block)
+  })
 
   return (
     <div className="px-4 pb-6 pt-6 md:px-8">
@@ -65,7 +139,7 @@ export default function Fridge() {
             <TemperatureTabs tabs={TABS} value={tab} onChange={setTab} />
           </div>
 
-          {grouped.length === 0 ? (
+          {isEmpty ? (
             <div className="mt-6">
               <EmptyState
                 title="아직 등록된 재료가 없어요"
@@ -75,20 +149,10 @@ export default function Fridge() {
               />
             </div>
           ) : (
-            <div className="mt-5 space-y-5">
-              {grouped.map((group) => (
-                <ShelfSection
-                  key={group.category}
-                  category={group.category}
-                  label={`${SECTION_LABEL[group.category]} · ${group.items.length}개`}
-                >
-                  <div className="flex min-h-[78px] flex-wrap items-end gap-x-3.5 gap-y-5 md:min-h-[86px] md:gap-x-4 md:gap-y-6">
-                    {group.items.map((item) => (
-                      <IngredientVessel key={item.id} ingredient={item} onClick={() => setModalState(item)} />
-                    ))}
-                  </div>
-                </ShelfSection>
-              ))}
+            <div className="mt-5">
+              <FridgeInterior>
+                <div className="space-y-4">{rows}</div>
+              </FridgeInterior>
             </div>
           )}
 
