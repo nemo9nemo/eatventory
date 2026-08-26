@@ -114,7 +114,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                 <button
                   onClick={switchToManual}
                   data-testid="manual-fallback"
-                  className="mt-1 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600"
+                  className="mt-1 rounded-lg bg-curry-600 px-4 py-2 text-sm font-medium text-white hover:bg-curry-700 dark:bg-curry-500 dark:hover:bg-curry-600"
                 >
                   직접 입력하기
                 </button>
@@ -146,7 +146,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                   setMode('scan')
                 }}
                 data-testid="scan-barcode"
-                className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-emerald-300 py-2 text-xs font-medium text-emerald-600 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950/40"
+                className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-curry-300 py-2 text-xs font-medium text-curry-600 hover:bg-curry-50 dark:border-curry-700 dark:text-curry-400 dark:hover:bg-curry-950/40"
               >
                 <ScanBarcode size={14} />
                 바코드로 스캔
@@ -157,7 +157,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
               <p
                 className={`mt-2 text-xs ${
                   scanHint.type === 'success'
-                    ? 'text-emerald-600 dark:text-emerald-400'
+                    ? 'text-curry-600 dark:text-curry-400'
                     : 'text-amber-600 dark:text-amber-400'
                 }`}
               >
@@ -174,7 +174,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                   if (error) setError('')
                 }}
                 placeholder="예: 계란"
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-emerald-500"
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-curry-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-curry-500"
               />
               {error && <p className="mt-1 text-xs text-red-500 dark:text-red-400">{error}</p>}
             </div>
@@ -185,7 +185,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                 {!ingredient && !categoryTouched && guessStorageCategory(name) && (
                   <span
                     data-testid="category-auto-hint"
-                    className="text-[11px] text-emerald-600 dark:text-emerald-400"
+                    className="text-[11px] text-curry-600 dark:text-curry-400"
                   >
                     재료명으로 자동 추천했어요
                   </span>
@@ -202,7 +202,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                     data-testid={`category-${opt.key}`}
                     className={`flex-1 rounded-lg py-2 text-sm font-medium ${
                       category === opt.key
-                        ? 'bg-emerald-600 text-white dark:bg-emerald-500'
+                        ? 'bg-curry-600 text-white dark:bg-curry-500'
                         : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300'
                     }`}
                   >
@@ -218,7 +218,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
                 placeholder="예: 2개, 500ml, 1단"
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-emerald-500"
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-curry-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-curry-500"
               />
             </div>
 
@@ -230,14 +230,14 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                 value={expiresInDays}
                 onChange={(e) => setExpiresInDays(e.target.value)}
                 placeholder="미입력 시 유통기한 표시 없음"
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-emerald-500"
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-curry-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-curry-500"
               />
             </div>
 
             <button
               onClick={handleSave}
               data-testid="save-ingredient"
-              className="mt-5 w-full rounded-lg bg-emerald-600 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600"
+              className="mt-5 w-full rounded-lg bg-curry-600 py-2.5 text-sm font-medium text-white hover:bg-curry-700 dark:bg-curry-500 dark:hover:bg-curry-600"
             >
               저장
             </button>

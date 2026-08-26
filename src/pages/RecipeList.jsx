@@ -43,7 +43,7 @@ export default function RecipeList() {
             onClick={() => setFilter(f.key)}
             className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium ${
               filter === f.key
-                ? 'bg-emerald-600 text-white dark:bg-emerald-500'
+                ? 'bg-curry-600 text-white dark:bg-curry-500'
                 : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300'
             }`}
           >

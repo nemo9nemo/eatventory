@@ -44,12 +44,12 @@ export default function Home() {
                 <span className="ml-2 text-sm font-normal text-amber-600 dark:text-amber-400">유통기한 임박 {expiringSoon}개</span>
               )}
             </p>
-            <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">냉장고 보기 →</p>
+            <p className="mt-1 text-xs text-curry-600 dark:text-curry-400">냉장고 보기 →</p>
           </button>
 
           <div className="mt-6 flex items-center justify-between">
             <h2 className="text-sm font-medium text-gray-900 dark:text-gray-100">오늘 만들 수 있는 요리</h2>
-            <button onClick={() => navigate('/recipes')} className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+            <button onClick={() => navigate('/recipes')} className="flex items-center gap-1 text-xs text-curry-600 dark:text-curry-400">
               더 보기 <ArrowRight size={14} />
             </button>
           </div>

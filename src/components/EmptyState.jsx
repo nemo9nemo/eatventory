@@ -6,7 +6,7 @@ export default function EmptyState({ title, description, actionLabel, onAction }
       {actionLabel && (
         <button
           onClick={onAction}
-          className="mt-1 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600"
+          className="mt-1 rounded-lg bg-curry-600 px-4 py-2 text-sm font-medium text-white hover:bg-curry-700 dark:bg-curry-500 dark:hover:bg-curry-600"
         >
           {actionLabel}
         </button>

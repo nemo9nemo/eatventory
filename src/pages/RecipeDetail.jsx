@@ -31,7 +31,7 @@ export default function RecipeDetail() {
       </div>
 
       <div className="px-4 md:px-8">
-        <div className="mt-3 flex h-32 items-center justify-center rounded-xl bg-emerald-50 text-3xl font-medium text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
+        <div className="mt-3 flex h-32 items-center justify-center rounded-xl bg-curry-50 text-3xl font-medium text-curry-600 dark:bg-curry-950 dark:text-curry-400">
           {recipe.name.slice(0, 1)}
         </div>
         <h1 className="mt-4 text-xl font-medium text-gray-900 dark:text-gray-100">{recipe.name}</h1>
@@ -47,7 +47,7 @@ export default function RecipeDetail() {
               return (
                 <li key={ing} className="flex items-center gap-2 text-sm">
                   {owned ? (
-                    <Check size={16} className="text-emerald-600 dark:text-emerald-400" />
+                    <Check size={16} className="text-curry-600 dark:text-curry-400" />
                   ) : (
                     <XIcon size={16} className="text-gray-300 dark:text-gray-600" />
                   )}
@@ -63,7 +63,7 @@ export default function RecipeDetail() {
           <ol className="mt-2 space-y-3">
             {recipe.steps.map((step, index) => (
               <li key={index} className="flex gap-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-700 dark:bg-gray-900 dark:text-gray-300">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[11px] font-medium text-white dark:bg-emerald-500">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-curry-600 text-[11px] font-medium text-white dark:bg-curry-500">
                   {index + 1}
                 </span>
                 <span>{step}</span>

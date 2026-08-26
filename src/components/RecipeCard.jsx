@@ -23,7 +23,7 @@ export default function RecipeCard({ recipe }) {
         <Star size={18} fill={isFavorite ? 'currentColor' : 'none'} className={isFavorite ? 'text-amber-400' : ''} />
       </button>
       <Link to={`/recipes/${recipe.id}`} className="flex items-center gap-3 pr-6">
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-lg font-medium text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-curry-50 text-lg font-medium text-curry-600 dark:bg-curry-950 dark:text-curry-400">
           {recipe.name.slice(0, 1)}
         </div>
         <div className="min-w-0 flex-1">

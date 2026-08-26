@@ -131,7 +131,7 @@ export default function Fridge() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="재료 이름으로 검색"
-              className="w-full rounded-lg border border-gray-200 bg-white/70 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none dark:border-gray-700 dark:bg-black/20 dark:text-gray-100"
+              className="w-full rounded-lg border border-gray-200 bg-white/70 px-3 py-2 text-sm focus:border-curry-400 focus:outline-none dark:border-gray-700 dark:bg-black/20 dark:text-gray-100"
             />
           </div>
 
@@ -159,11 +159,11 @@ export default function Fridge() {
           {ingredients.length > 0 && (
             <button
               onClick={() => navigate('/recipes')}
-              className="relative mt-6 w-full rounded-2xl bg-white py-3 text-sm font-medium text-emerald-600 shadow-sm ring-1 ring-emerald-100 dark:bg-gray-800 dark:ring-emerald-900/40"
+              className="relative mt-6 w-full rounded-2xl bg-white py-3 text-sm font-medium text-curry-600 shadow-sm ring-1 ring-curry-100 dark:bg-gray-800 dark:ring-curry-900/40"
             >
               <Pin
                 size={14}
-                className="absolute -top-2 left-1/2 -translate-x-1/2 -rotate-12 text-emerald-600"
+                className="absolute -top-2 left-1/2 -translate-x-1/2 -rotate-12 text-curry-600"
                 aria-hidden="true"
               />
               이 재료로 레시피 추천받기
@@ -173,7 +173,7 @@ export default function Fridge() {
           <button
             onClick={() => setModalState('new')}
             aria-label="재료 추가"
-            className="absolute bottom-20 right-4 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white shadow-md ring-2 ring-white/40 transition hover:bg-emerald-700 active:scale-95 dark:ring-black/20 md:bottom-6 md:right-6"
+            className="absolute bottom-20 right-4 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-curry-600 text-white shadow-md ring-2 ring-white/40 transition hover:bg-curry-700 active:scale-95 dark:ring-black/20 md:bottom-6 md:right-6"
           >
             <Plus size={22} />
           </button>
