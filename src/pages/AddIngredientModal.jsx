@@ -16,6 +16,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
   const [expiresInDays, setExpiresInDays] = useState(
     typeof ingredient?.expiresInDays === 'number' ? String(ingredient.expiresInDays) : ''
   )
+  const [quantity, setQuantity] = useState(ingredient?.quantity ?? '')
   const [error, setError] = useState('')
   // 신규 등록일 때만 이름 기반 보관 구분 자동 추천을 켠다. 사용자가 보관 구분을
   // 직접 클릭하는 순간부터는 더 이상 이름 변경으로 값을 덮어쓰지 않는다.
@@ -79,6 +80,7 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
       name: name.trim(),
       category,
       expiresInDays: expiresInDays === '' ? null : Number(expiresInDays),
+      quantity: quantity.trim() || null,
     })
   }
 
@@ -208,6 +210,16 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
                   </button>
                 ))}
               </div>
+            </div>
+
+            <div className="mt-4">
+              <label className="text-xs text-gray-500 dark:text-gray-400">보유 수량 (선택)</label>
+              <input
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                placeholder="예: 2개, 500ml, 1단"
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-emerald-500"
+              />
             </div>
 
             <div className="mt-4">

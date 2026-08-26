@@ -74,7 +74,10 @@ export default function IngredientVessel({ ingredient, onClick }) {
       <p className="mt-1 w-full truncate text-center text-[11px] font-medium text-gray-900 dark:text-gray-100">
         {ingredient.name}
       </p>
-      <span className={`text-[10px] opacity-70 ${zone.text}`}>{CATEGORY_LABEL[ingredient.category]}</span>
+      <span className={`text-[10px] opacity-70 ${zone.text}`}>
+        {CATEGORY_LABEL[ingredient.category]}
+        {ingredient.quantity ? ` · ${ingredient.quantity}` : ''}
+      </span>
     </button>
   )
 }
