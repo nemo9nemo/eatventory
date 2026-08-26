@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { X, ScanBarcode } from 'lucide-react'
 import { useBarcodeScanner } from '../hooks/useBarcodeScanner'
 import { lookupProductByBarcode } from '../utils/barcodeLookup'
+import { guessStorageCategory } from '../data/storageGuide'
 
 const CATEGORY_OPTIONS = [
   { key: 'room', label: '실온' },
@@ -16,6 +17,9 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
     typeof ingredient?.expiresInDays === 'number' ? String(ingredient.expiresInDays) : ''
   )
   const [error, setError] = useState('')
+  // 신규 등록일 때만 이름 기반 보관 구분 자동 추천을 켠다. 사용자가 보관 구분을
+  // 직접 클릭하는 순간부터는 더 이상 이름 변경으로 값을 덮어쓰지 않는다.
+  const [categoryTouched, setCategoryTouched] = useState(!!ingredient)
 
   // 'form' | 'scan' — scanning is only ever entered for a brand-new ingredient.
   const [mode, setMode] = useState('form')
@@ -47,6 +51,14 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
     // Only re-run when the mode actually changes; start/stop identities are stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode])
+
+  // 재료명으로 보관 구분 자동 추천 — 신규 등록이고, 사용자가 아직 보관 구분을
+  // 직접 고르지 않았을 때만 적용한다(바코드 스캔으로 이름이 채워지는 경우도 포함).
+  useEffect(() => {
+    if (ingredient || categoryTouched) return
+    const guess = guessStorageCategory(name)
+    if (guess) setCategory(guess)
+  }, [name, ingredient, categoryTouched])
 
   useEffect(() => {
     // Extra safety net: always release the camera when the modal itself unmounts.
@@ -166,12 +178,25 @@ export default function AddIngredientModal({ ingredient, onClose, onSave, onDele
             </div>
 
             <div className="mt-4">
-              <label className="text-xs text-gray-500 dark:text-gray-400">보관 구분</label>
+              <div className="flex items-center gap-1.5">
+                <label className="text-xs text-gray-500 dark:text-gray-400">보관 구분</label>
+                {!ingredient && !categoryTouched && guessStorageCategory(name) && (
+                  <span
+                    data-testid="category-auto-hint"
+                    className="text-[11px] text-emerald-600 dark:text-emerald-400"
+                  >
+                    재료명으로 자동 추천했어요
+                  </span>
+                )}
+              </div>
               <div className="mt-1 flex gap-2">
                 {CATEGORY_OPTIONS.map((opt) => (
                   <button
                     key={opt.key}
-                    onClick={() => setCategory(opt.key)}
+                    onClick={() => {
+                      setCategory(opt.key)
+                      setCategoryTouched(true)
+                    }}
                     data-testid={`category-${opt.key}`}
                     className={`flex-1 rounded-lg py-2 text-sm font-medium ${
                       category === opt.key
