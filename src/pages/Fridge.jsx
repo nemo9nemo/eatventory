@@ -188,8 +188,7 @@ export default function Fridge() {
 
   return (
     <div className="px-4 pb-6 pt-6 md:px-8">
-      <div className="mx-auto max-w-[720px]">
-        <FridgeFrame>
+      <FridgeFrame>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[11px] text-gray-500 dark:text-gray-400">잇벤토리</p>
@@ -289,8 +288,7 @@ export default function Fridge() {
               <Plus size={22} />
             </button>
           )}
-        </FridgeFrame>
-      </div>
+      </FridgeFrame>
 
       {modalState && (
         <AddIngredientModal

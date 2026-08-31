@@ -6,7 +6,9 @@ export default function Layout() {
     <div className="mx-auto flex min-h-screen max-w-5xl flex-col bg-gray-50 dark:bg-gray-950 md:flex-row">
       <BottomNav />
       <main className="flex-1 pb-16 md:pb-0">
-        <Outlet />
+        <div className="mx-auto max-w-[720px]">
+          <Outlet />
+        </div>
       </main>
     </div>
   )
