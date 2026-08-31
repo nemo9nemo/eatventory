@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
@@ -8,6 +9,7 @@ export default function RecipeCard({ recipe }) {
   const ingredientNames = ingredients.map((i) => i.name)
   const { ownedCount, total, missing } = getRecipeMatch(recipe, ingredientNames)
   const isFavorite = favorites.includes(recipe.id)
+  const [imageError, setImageError] = useState(false)
 
   return (
     <div
@@ -23,13 +25,22 @@ export default function RecipeCard({ recipe }) {
         <Star size={18} fill={isFavorite ? 'currentColor' : 'none'} className={isFavorite ? 'text-amber-400' : ''} />
       </button>
       <Link to={`/recipes/${recipe.id}`} className="flex items-center gap-3 pr-6">
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-curry-50 text-lg font-medium text-curry-600 dark:bg-curry-950 dark:text-curry-400">
-          {recipe.name.slice(0, 1)}
-        </div>
+        {recipe.image && !imageError ? (
+          <img
+            src={recipe.image}
+            alt=""
+            className="h-14 w-14 shrink-0 rounded-lg object-cover"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-curry-50 text-lg font-medium text-curry-600 dark:bg-curry-950 dark:text-curry-400">
+            {recipe.name.slice(0, 1)}
+          </div>
+        )}
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">{recipe.name}</p>
           <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-            재료 {ownedCount}/{total}개 보유 · {recipe.time}
+            재료 {ownedCount}/{total}개 보유{recipe.category ? ` · ${recipe.category}` : ''}
           </p>
           {missing.length > 0 && (
             <p className="mt-1 truncate text-xs text-amber-600 dark:text-amber-400">{missing.join(', ')} 없음</p>

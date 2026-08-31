@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react'
-import { initialIngredients, recipes } from '../data/mock'
+import { initialIngredients } from '../data/mock'
+import recipes from '../data/recipes.json'
 
 const AppContext = createContext(null)
 

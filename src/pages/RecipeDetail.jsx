@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ChevronLeft, Star, Check, X as XIcon, Clock } from 'lucide-react'
+import { ChevronLeft, Star, Check, X as XIcon } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 
 export default function RecipeDetail() {
@@ -8,6 +9,7 @@ export default function RecipeDetail() {
   const { recipes, ingredients, favorites, toggleFavorite } = useApp()
   const recipe = recipes.find((r) => String(r.id) === id)
   const ingredientNames = ingredients.map((i) => i.name)
+  const [imageError, setImageError] = useState(false)
 
   if (!recipe) {
     return <div className="px-4 py-10 text-center text-sm text-gray-500 dark:text-gray-400">레시피를 찾을 수 없어요.</div>
@@ -31,13 +33,24 @@ export default function RecipeDetail() {
       </div>
 
       <div className="px-4 md:px-8">
-        <div className="mt-3 flex h-32 items-center justify-center rounded-xl bg-curry-50 text-3xl font-medium text-curry-600 dark:bg-curry-950 dark:text-curry-400">
-          {recipe.name.slice(0, 1)}
-        </div>
+        {recipe.image && !imageError ? (
+          <img
+            src={recipe.image}
+            alt=""
+            className="mt-3 h-32 w-full rounded-xl object-cover"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="mt-3 flex h-32 items-center justify-center rounded-xl bg-curry-50 text-3xl font-medium text-curry-600 dark:bg-curry-950 dark:text-curry-400">
+            {recipe.name.slice(0, 1)}
+          </div>
+        )}
         <h1 className="mt-4 text-xl font-medium text-gray-900 dark:text-gray-100">{recipe.name}</h1>
-        <p className="mt-1 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-          <Clock size={14} /> {recipe.time} · {recipe.difficulty}
-        </p>
+        {(recipe.category || recipe.method) && (
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            {[recipe.category, recipe.method].filter(Boolean).join(' · ')}
+          </p>
+        )}
 
         <div className="mt-5">
           <h2 className="text-sm font-medium text-gray-900 dark:text-gray-100">재료</h2>

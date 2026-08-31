@@ -1,10 +1,12 @@
+import { Check } from 'lucide-react'
 import { CATEGORY_LABEL } from '../data/mock'
 import { ZONE_STYLE, URGENCY_STYLE } from '../data/fridgeTheme'
 import { getVesselConfig, SHAPE_GEOMETRY, ROTATE_STEPS, TUBER_COLOR } from '../data/vesselShapes'
 
 // 재료 표현 — 카드 → 용기(Vessel) (docs/03_냉장고_디자인_스펙.md 3-4)
 // IngredientCard를 대체한다. props(ingredient, onClick)와 클릭 인터랙션은 100% 동일하게 유지한다.
-export default function IngredientVessel({ ingredient, onClick }) {
+// selectable/selected: AI 레시피 추천용 재료 선택 모드(Fridge.jsx "레시피 확인하기")에서만 쓰인다.
+export default function IngredientVessel({ ingredient, onClick, selectable = false, selected = false }) {
   const expiring = typeof ingredient.expiresInDays === 'number'
   const urgent = expiring && ingredient.expiresInDays <= 2
   const soon = expiring && ingredient.expiresInDays > 2 && ingredient.expiresInDays <= 5
@@ -29,6 +31,18 @@ export default function IngredientVessel({ ingredient, onClick }) {
       style={{ transform: `rotate(${rotate}deg)` }}
       className={`relative flex min-h-11 flex-col items-center ${isMd ? 'w-16 md:w-[72px]' : 'w-12 md:w-14'}`}
     >
+      {selectable && (
+        <span
+          aria-hidden="true"
+          className={`absolute -left-1.5 -top-1.5 z-10 flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 ${
+            selected
+              ? 'border-curry-600 bg-curry-600 text-white dark:border-curry-500 dark:bg-curry-500'
+              : 'border-gray-300 bg-white/90 dark:border-gray-600 dark:bg-gray-900/90'
+          }`}
+        >
+          {selected && <Check size={11} strokeWidth={3} />}
+        </span>
+      )}
       {expiring && (
         <span
           className={`absolute -right-2 -top-2.5 z-10 rounded-md border px-1.5 py-0.5 text-[11px] font-medium ${badge.badge} ${badge.rotate}`}
@@ -40,7 +54,9 @@ export default function IngredientVessel({ ingredient, onClick }) {
       {/* shape — 실루엣 본체. 재료 종류별 clip-path/border-radius로 다른 용기 형태를 표현한다(4장) */}
       {isTuber ? (
         <div
-          className={`relative flex w-full items-center justify-center overflow-hidden shadow-sm transition hover:-translate-y-0.5 hover:brightness-105 active:scale-[0.97] dark:brightness-90 dark:contrast-110 h-11`}
+          className={`relative flex w-full items-center justify-center overflow-hidden shadow-sm transition hover:-translate-y-0.5 hover:brightness-105 active:scale-[0.97] dark:brightness-90 dark:contrast-110 h-11 ${
+            selected ? 'ring-2 ring-curry-600 ring-offset-1 dark:ring-curry-500' : ''
+          }`}
           style={{
             borderRadius: '48% 52% 55% 45% / 55% 48% 52% 45%',
             background: `radial-gradient(circle at 32% 26%, color-mix(in srgb, ${tuberColor.light} 35%, white 65%), ${tuberColor.light} 58%, color-mix(in srgb, ${tuberColor.light} 72%, black 28%) 100%)`,
@@ -50,7 +66,9 @@ export default function IngredientVessel({ ingredient, onClick }) {
         <div
           className={`relative flex w-full items-center justify-center overflow-hidden border shadow-sm transition hover:-translate-y-0.5 hover:brightness-105 active:scale-[0.97] ${
             isMd ? 'h-[58px]' : 'h-11'
-          } ${zone.vesselBg} ${zone.border} ${zone.dashed ? 'border-dashed' : ''}`}
+          } ${zone.vesselBg} ${zone.border} ${zone.dashed ? 'border-dashed' : ''} ${
+            selected ? 'ring-2 ring-curry-600 ring-offset-1 dark:ring-curry-500' : ''
+          }`}
           style={SHAPE_GEOMETRY[shape]}
         >
           {shape === 'box' && (

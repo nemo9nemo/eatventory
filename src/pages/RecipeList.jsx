@@ -4,7 +4,7 @@ import { ChevronLeft } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import RecipeCard from '../components/RecipeCard'
 import EmptyState from '../components/EmptyState'
-import { getRecipeMatch } from '../utils/match'
+import { rankRecipes, RECIPE_LIST_LIMIT } from '../utils/match'
 
 const FILTERS = [
   { key: 'all', label: '전체' },
@@ -18,14 +18,10 @@ export default function RecipeList() {
   const ingredientNames = ingredients.map((i) => i.name)
   const [filter, setFilter] = useState('all')
 
-  const list = useMemo(() => {
-    return recipes.filter((recipe) => {
-      const { missing } = getRecipeMatch(recipe, ingredientNames)
-      if (filter === 'ready') return missing.length === 0
-      if (filter === 'almost') return missing.length > 0 && missing.length <= 2
-      return true
-    })
-  }, [recipes, ingredientNames, filter])
+  const list = useMemo(
+    () => rankRecipes(recipes, ingredientNames, filter),
+    [recipes, ingredientNames, filter]
+  )
 
   return (
     <div className="px-4 pb-10 pt-6 md:px-8">
@@ -52,7 +48,11 @@ export default function RecipeList() {
         ))}
       </div>
 
-      <div className="mt-4 space-y-2">
+      <p className="mt-3 text-[11px] text-gray-400 dark:text-gray-500">
+        보유 재료와 가장 잘 맞는 순으로 최대 {RECIPE_LIST_LIMIT}개까지 보여드려요.
+      </p>
+
+      <div className="mt-3 space-y-2">
         {list.length === 0 ? (
           <EmptyState title="조건에 맞는 레시피가 없어요" description="재료를 더 등록해보세요." />
         ) : (

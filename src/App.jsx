@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Fridge from './pages/Fridge'
 import RecipeList from './pages/RecipeList'
 import RecipeDetail from './pages/RecipeDetail'
+import RecipeAiResult from './pages/RecipeAiResult'
 import Favorites from './pages/Favorites'
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/fridge" element={<Fridge />} />
         <Route path="/recipes" element={<RecipeList />} />
+        <Route path="/recipes/ai" element={<RecipeAiResult />} />
         <Route path="/recipes/:id" element={<RecipeDetail />} />
         <Route path="/favorites" element={<Favorites />} />
       </Route>
